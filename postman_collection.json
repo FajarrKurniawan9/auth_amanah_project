@@ -1,0 +1,813 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "name": "API Autentikasi v1 (Fullstack Laravel)",
+    "description": "Koleksi API Autentikasi Amanah (Register, Login Email, Login WA OTP, Reset Password via Email).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Register Account",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"User Amanah\",\n  \"email\": \"user@amanah.test\",\n  \"phone_number\": \"081234567890\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "register"
+          ]
+        },
+        "description": "Mendaftarkan akun baru pada sistem Amanah."
+      },
+      "response": [
+        {
+          "name": "201 Created (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"User Amanah\",\n  \"email\": \"user@amanah.test\",\n  \"phone_number\": \"081234567890\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "register"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\",\n  \"message\": \"Registrasi berhasil.\",\n  \"data\": {\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"User Amanah\",\n      \"email\": \"user@amanah.test\",\n      \"phone_number\": \"081234567890\",\n      \"created_at\": \"2026-10-08T08:00:00.000000Z\"\n    }\n  }\n}"
+        },
+        {
+          "name": "422 Unprocessable Entity (Validation Error)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"User Amanah\",\n  \"email\": \"user@amanah.test\",\n  \"phone_number\": \"081234567890\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "register"
+              ]
+            }
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"The email has already been taken.\",\n  \"errors\": {\n    \"email\": [\n      \"The email has already been taken.\"\n    ]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "2. Login Email",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    var jsonData = pm.response.json();",
+              "    var token = jsonData.token || (jsonData.data && jsonData.data.token) || jsonData.access_token;",
+              "    if (token) {",
+              "        pm.environment.set(\"auth_token\", token);",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@amanah.test\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/login/email",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "login",
+            "email"
+          ]
+        },
+        "description": "Autentikasi menggunakan email dan password."
+      },
+      "response": [
+        {
+          "name": "200 OK (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@amanah.test\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/login/email",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "login",
+                "email"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\",\n  \"message\": \"Login berhasil.\",\n  \"token\": \"1|laravel_sanctum_token_example_123456789\",\n  \"data\": {\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"User Amanah\",\n      \"email\": \"user@amanah.test\",\n      \"phone_number\": \"081234567890\"\n    }\n  }\n}"
+        },
+        {
+          "name": "401 Unauthorized (Credentials Mismatch)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@amanah.test\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/login/email",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "login",
+                "email"
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"error\",\n  \"message\": \"Kredensial yang diberikan tidak cocok dengan data kami.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "3. Login WhatsApp (Request OTP)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone_number\": \"081234567890\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/login/whatsapp/request",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "login",
+            "whatsapp",
+            "request"
+          ]
+        },
+        "description": "Mengirimkan kode OTP login ke nomor WhatsApp pengguna."
+      },
+      "response": [
+        {
+          "name": "200 OK (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"081234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/login/whatsapp/request",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "login",
+                "whatsapp",
+                "request"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\",\n  \"message\": \"Kode OTP berhasil dikirimkan ke nomor WhatsApp Anda.\",\n  \"data\": {\n    \"phone_number\": \"081234567890\",\n    \"expires_in\": 300\n  }\n}"
+        },
+        {
+          "name": "404 Not Found",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"081234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/login/whatsapp/request",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "login",
+                "whatsapp",
+                "request"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"error\",\n  \"message\": \"Nomor WhatsApp tidak terdaftar.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "4. Login WhatsApp (Verify OTP)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "    var jsonData = pm.response.json();",
+              "    var token = jsonData.token || (jsonData.data && jsonData.data.token) || jsonData.access_token;",
+              "    if (token) {",
+              "        pm.environment.set(\"auth_token\", token);",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone_number\": \"081234567890\",\n  \"otp\": \"123456\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/login/whatsapp/verify",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "login",
+            "whatsapp",
+            "verify"
+          ]
+        },
+        "description": "Verifikasi OTP yang dikirim melalui WhatsApp untuk login."
+      },
+      "response": [
+        {
+          "name": "200 OK (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"081234567890\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/login/whatsapp/verify",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "login",
+                "whatsapp",
+                "verify"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\",\n  \"message\": \"Verifikasi OTP berhasil, login sukses.\",\n  \"token\": \"2|laravel_sanctum_token_example_987654321\",\n  \"data\": {\n    \"user\": {\n      \"id\": 1,\n      \"name\": \"User Amanah\",\n      \"email\": \"user@amanah.test\",\n      \"phone_number\": \"081234567890\"\n    }\n  }\n}"
+        },
+        {
+          "name": "400 Bad Request",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone_number\": \"081234567890\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/login/whatsapp/verify",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "login",
+                "whatsapp",
+                "verify"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"error\",\n  \"message\": \"Kode OTP salah atau sudah kadaluarsa.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "5. Forgot Password (Request OTP via Email)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@amanah.test\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/password/forgot",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "password",
+            "forgot"
+          ]
+        },
+        "description": "Permintaan reset password dengan mengirimkan OTP ke email pengguna."
+      },
+      "response": [
+        {
+          "name": "200 OK (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@amanah.test\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/password/forgot",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "password",
+                "forgot"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\",\n  \"message\": \"Kode OTP reset password telah dikirimkan ke email Anda.\",\n  \"data\": {\n    \"email\": \"user@amanah.test\",\n    \"expires_in\": 300\n  }\n}"
+        },
+        {
+          "name": "404 Not Found",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@amanah.test\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/password/forgot",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "password",
+                "forgot"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"error\",\n  \"message\": \"Email tidak ditemukan di sistem kami.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "6. Forgot Password (Verify OTP & Reset)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"user@amanah.test\",\n  \"otp\": \"123456\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/password/reset",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "password",
+            "reset"
+          ]
+        },
+        "description": "Verifikasi OTP dan reset password pengguna."
+      },
+      "response": [
+        {
+          "name": "200 OK (Success)",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@amanah.test\",\n  \"otp\": \"123456\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/password/reset",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "password",
+                "reset"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"success\",\n  \"message\": \"Password berhasil diubah. Silakan login kembali dengan password baru Anda.\"\n}"
+        },
+        {
+          "name": "400 Bad Request",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@amanah.test\",\n  \"otp\": \"123456\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/password/reset",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "password",
+                "reset"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"status\": \"error\",\n  \"message\": \"Kode OTP tidak valid atau telah kadaluarsa.\"\n}"
+        },
+        {
+          "name": "422 Unprocessable Entity",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@amanah.test\",\n  \"otp\": \"123456\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/password/reset",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "password",
+                "reset"
+              ]
+            }
+          },
+          "status": "Unprocessable Entity",
+          "code": 422,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"The password field confirmation does not match.\",\n  \"errors\": {\n    \"password\": [\n      \"The password field confirmation does not match.\"\n    ]\n  }\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "auth_token",
+      "value": ""
+    }
+  ]
+}
