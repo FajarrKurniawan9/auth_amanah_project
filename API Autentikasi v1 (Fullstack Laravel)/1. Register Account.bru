@@ -1,0 +1,58 @@
+meta {
+  name: Register Account
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/api/v1/register
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "name": "User Amanah",
+    "email": "user@amanah.test",
+    "phone_number": "081234567890",
+    "password": "password123"
+  }
+}
+
+docs {
+  # Register Account
+  Mendaftarkan akun baru pada sistem Amanah.
+  
+  ### Expected Response (201 Created):
+  ```json
+  {
+    "status": "success",
+    "message": "Registrasi berhasil.",
+    "data": {
+      "user": {
+        "id": 1,
+        "name": "User Amanah",
+        "email": "user@amanah.test",
+        "phone_number": "081234567890",
+        "created_at": "2026-10-08T08:00:00.000000Z"
+      }
+    }
+  }
+  ```
+  
+  ### Error Response (422 Unprocessable Entity):
+  ```json
+  {
+    "message": "The email has already been taken.",
+    "errors": {
+      "email": [
+        "The email has already been taken."
+      ]
+    }
+  }
+  ```
+}

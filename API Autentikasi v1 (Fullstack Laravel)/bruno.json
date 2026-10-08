@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "API Autentikasi v1 (Fullstack Laravel)",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -1,0 +1,62 @@
+meta {
+  name: Login WhatsApp (Verify OTP)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/api/v1/login/whatsapp/verify
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "phone_number": "081234567890",
+    "otp": "123456"
+  }
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const data = res.getBody();
+    const token = data.token || (data.data && data.data.token) || data.access_token;
+    if (token) {
+      bru.setEnvVar("auth_token", token);
+    }
+  }
+}
+
+docs {
+  # Login WhatsApp (Verify OTP)
+  Verifikasi OTP yang dikirim melalui WhatsApp untuk login.
+  
+  ### Expected Response (200 OK):
+  ```json
+  {
+    "status": "success",
+    "message": "Verifikasi OTP berhasil, login sukses.",
+    "token": "2|laravel_sanctum_token_example_987654321",
+    "data": {
+      "user": {
+        "id": 1,
+        "name": "User Amanah",
+        "email": "user@amanah.test",
+        "phone_number": "081234567890"
+      }
+    }
+  }
+  ```
+  
+  ### Error Response (400 Bad Request):
+  ```json
+  {
+    "status": "error",
+    "message": "Kode OTP salah atau sudah kadaluarsa."
+  }
+  ```
+}

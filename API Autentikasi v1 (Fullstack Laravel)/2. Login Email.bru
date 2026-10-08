@@ -1,0 +1,62 @@
+meta {
+  name: Login Email
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/api/v1/login/email
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "email": "user@amanah.test",
+    "password": "password123"
+  }
+}
+
+script:post-response {
+  if (res.getStatus() === 200) {
+    const data = res.getBody();
+    const token = data.token || (data.data && data.data.token) || data.access_token;
+    if (token) {
+      bru.setEnvVar("auth_token", token);
+    }
+  }
+}
+
+docs {
+  # Login Email
+  Autentikasi menggunakan email dan password.
+  
+  ### Expected Response (200 OK):
+  ```json
+  {
+    "status": "success",
+    "message": "Login berhasil.",
+    "token": "1|laravel_sanctum_token_example_123456789",
+    "data": {
+      "user": {
+        "id": 1,
+        "name": "User Amanah",
+        "email": "user@amanah.test",
+        "phone_number": "081234567890"
+      }
+    }
+  }
+  ```
+  
+  ### Error Response (401 Unauthorized / 422 Unprocessable Entity):
+  ```json
+  {
+    "status": "error",
+    "message": "Kredensial yang diberikan tidak cocok dengan data kami."
+  }
+  ```
+}

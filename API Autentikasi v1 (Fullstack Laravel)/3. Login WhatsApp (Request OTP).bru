@@ -1,0 +1,54 @@
+meta {
+  name: Login WhatsApp (Request OTP)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/api/v1/login/whatsapp/request
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
+
+body:json {
+  {
+    "phone_number": "081234567890"
+  }
+}
+
+docs {
+  # Login WhatsApp (Request OTP)
+  Mengirimkan kode OTP login ke nomor WhatsApp pengguna.
+  
+  ### Expected Response (200 OK):
+  ```json
+  {
+    "status": "success",
+    "message": "Kode OTP berhasil dikirimkan ke nomor WhatsApp Anda.",
+    "data": {
+      "phone_number": "081234567890",
+      "expires_in": 300
+    }
+  }
+  ```
+  
+  ### Error Response (404 Not Found):
+  ```json
+  {
+    "status": "error",
+    "message": "Nomor WhatsApp tidak terdaftar."
+  }
+  ```
+  
+  ### Error Response (429 Too Many Requests):
+  ```json
+  {
+    "status": "error",
+    "message": "Terlalu banyak permintaan OTP. Silakan coba lagi dalam beberapa menit."
+  }
+  ```
+}
